@@ -7,6 +7,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Validation\Rule;
+use Illuminate\Http\Request;
 
 class RegisterController extends Controller
 {
@@ -28,7 +30,26 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    //protected $redirectTo = '/home';
+     protected function registered(Request $request, $user)
+    {   
+        switch ($user->role) {
+        case "enseignant":
+            return redirect('enseignant');
+            break;
+        case "etudiant":
+            return redirect('etudiant');
+            break;
+        case "coordinateur":
+            return redirect('coordinateur');
+            break;
+        case "administration":
+            return redirect('administration');
+            break;
+        default:
+            abort(403, 'Accès refusé pour ce type des roles.');
+        }
+    }
 
     /**
      * Create a new controller instance.
@@ -51,6 +72,10 @@ class RegisterController extends Controller
         return Validator::make($data, [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'role' => [
+                'required',
+                Rule::in(['etudiant', 'enseignant','coordinateur','administration']),
+            ],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
     }
@@ -66,6 +91,7 @@ class RegisterController extends Controller
         return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
+            'role' => $data['role'],
             'password' => Hash::make($data['password']),
         ]);
     }

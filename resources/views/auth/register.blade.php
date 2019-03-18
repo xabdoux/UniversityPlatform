@@ -40,6 +40,25 @@
                         </div>
 
                         <div class="form-group row">
+                            <label class="col-md-4 col-form-label text-md-right">Role</label>
+                            <div class="col-md-6">
+                                <select class="form-control{{ $errors->has('role') ? ' is-invalid' : '' }}" name="role">
+                                  
+                                  <option value="" disabled {{!old('role') ? 'selected' : ''}}>Select your option</option>
+                                  <option value="enseignant" {{ old('role') == 'enseignant' ? 'selected':'' }}>Enseignant</option>
+                                  <option value="etudiant" {{ old('role') == 'etudiant' ? 'selected':'' }}>Etudiant</option>
+                                  <option value="coordinateur" {{ old('role') == 'coordinateur' ? 'selected':'' }}>Coordinateur</option>
+                                  <option value="administration" {{ old('role') == 'administration' ? 'selected':'' }}>Administration</option>
+                                </select>
+                                @if ($errors->has('role'))
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $errors->first('role') }}</strong>
+                                    </span>
+                                @endif
+                          </div>
+                        </div>
+
+                        <div class="form-group row">
                             <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
 
                             <div class="col-md-6">
@@ -60,7 +79,6 @@
                                 <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required>
                             </div>
                         </div>
-
                         <div class="form-group row mb-0">
                             <div class="col-md-6 offset-md-4">
                                 <button type="submit" class="btn btn-primary">

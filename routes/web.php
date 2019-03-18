@@ -18,3 +18,24 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+Route::group(['middleware' => ['auth','can:enseignant']], function () {
+
+		    Route::get('test', function () {
+		    return view('welcome');
+		});
+
+
+});
+
+Route::group(['middleware' => ['auth','can:etudiant']], function () {
+
+});
+Route::group(['middleware' => ['auth','can:coordinateur']], function () {
+
+});
+Route::group(['middleware' => ['auth','can:administration']], function () {
+
+});
+Route::group(['middleware' => ['auth','can:superadmin']], function () {
+
+});
