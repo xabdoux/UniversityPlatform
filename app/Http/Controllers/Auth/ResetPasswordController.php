@@ -25,7 +25,26 @@ class ResetPasswordController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    // protected $redirectTo = '/home';
+    protected function redirectTo()
+    {
+        switch (auth()->user()->role) {
+        case "enseignant":
+            return redirect('enseignant');
+            break;
+        case "etudiant":
+            return redirect('etudiant');
+            break;
+        case "coordinateur":
+            return redirect('coordinateur');
+            break;
+        case "administration":
+            return redirect('administration');
+            break;
+        default:
+            abort(403, 'Accès refusé pour ce type des roles.');
+        }
+    }
 
     /**
      * Create a new controller instance.

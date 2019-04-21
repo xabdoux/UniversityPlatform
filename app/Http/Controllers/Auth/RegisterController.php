@@ -69,16 +69,52 @@ class RegisterController extends Controller
      */
     protected function validator(array $data)
     {
-        return Validator::make($data, [
-            'first_name' => ['required', 'string', 'max:255'],
-            'last_name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'role' => [
-                'required',
-                Rule::in(['etudiant', 'enseignant','coordinateur','administration']),
-            ],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
-        ]);
+        if ($data['role'] == 'enseignant') {
+                return Validator::make($data, [
+                'first_name_en' => ['required', 'string', 'max:255'],
+                'last_name_en' => ['required', 'string', 'max:255'],
+                'email_en' => ['required', 'string', 'email', 'max:255', 'unique:users,email'],
+                'role' => [
+                    'required',
+                    Rule::in(['etudiant', 'enseignant','coordinateur','administration']),
+                ],
+                'password_en' => ['required', 'string', 'min:8', 'confirmed'],
+            ]);
+        }elseif ($data['role'] == 'etudiant') {
+                return Validator::make($data, [
+                'first_name_et' => ['required', 'string', 'max:255'],
+                'last_name_et' => ['required', 'string', 'max:255'],
+                'email_et' => ['required', 'string', 'email', 'max:255', 'unique:users,email'],
+                'role' => [
+                    'required',
+                    Rule::in(['etudiant', 'enseignant','coordinateur','administration']),
+                ],
+                'password_et' => ['required', 'string', 'min:8', 'confirmed'],
+            ]);
+        }elseif ($data['role'] == 'coordinateur') {
+                return Validator::make($data, [
+                'first_name_co' => ['required', 'string', 'max:255'],
+                'last_name_co' => ['required', 'string', 'max:255'],
+                'email_co' => ['required', 'string', 'email', 'max:255', 'unique:users,email'],
+                'role' => [
+                    'required',
+                    Rule::in(['etudiant', 'enseignant','coordinateur','administration']),
+                ],
+                'password_co' => ['required', 'string', 'min:8', 'confirmed'],
+            ]);
+        }elseif ($data['role'] == 'administration') {
+                return Validator::make($data, [
+                'first_name_ad' => ['required', 'string', 'max:255'],
+                'last_name_ad' => ['required', 'string', 'max:255'],
+                'email_ad' => ['required', 'string', 'email', 'max:255', 'unique:users,email'],
+                'role' => [
+                    'required',
+                    Rule::in(['etudiant', 'enseignant','coordinateur','administration']),
+                ],
+                'password_ad' => ['required', 'string', 'min:8', 'confirmed'],
+            ]);
+        }
+        
     }
 
     /**
@@ -89,12 +125,38 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
-            'last_name' => $data['last_name'],
-            'first_name' => $data['first_name'],
-            'email' => $data['email'],
-            'role' => $data['role'],
-            'password' => Hash::make($data['password']),
-        ]);
+        if ($data['role'] == 'enseignant') {
+            return User::create([
+                'last_name' => $data['last_name_en'],
+                'first_name' => $data['first_name_en'],
+                'email' => $data['email_en'],
+                'role' => $data['role'],
+                'password' => Hash::make($data['password_en']),
+            ]);
+        }elseif ($data['role'] == 'etudiant') {
+            return User::create([
+                'last_name' => $data['last_name_et'],
+                'first_name' => $data['first_name_et'],
+                'email' => $data['email_et'],
+                'role' => $data['role'],
+                'password' => Hash::make($data['password_et']),
+            ]);
+        }elseif ($data['role'] == 'coordinateur') {
+            return User::create([
+                'last_name' => $data['last_name_co'],
+                'first_name' => $data['first_name_co'],
+                'email' => $data['email_co'],
+                'role' => $data['role'],
+                'password' => Hash::make($data['password_co']),
+            ]);
+        }elseif ($data['role'] == 'administration') {
+            return User::create([
+                'last_name' => $data['last_name_ad'],
+                'first_name' => $data['first_name_ad'],
+                'email' => $data['email_ad'],
+                'role' => $data['role'],
+                'password' => Hash::make($data['password_ad']),
+            ]);
+        }
     }
 }

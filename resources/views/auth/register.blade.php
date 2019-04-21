@@ -122,55 +122,60 @@
 								</span>
 							</div>
 							<div class="modal-body">
-						        <form method="POST" action="{{ route('register') }}">
+						        <form method="POST" action="{{ route('register') }}" data-toggle="validator">
 						        	@csrf
 						        	<input type="hidden" name="role" value="enseignant">
 						        	<div class="row">
 							          	<div class="form-group col-6">
 							            	<label for="last_name_ens" class="col-form-label"><strong>Nom:</strong></label>
-							            	<input type="text" name="last_name" class="form-control {{ $errors->has('last_name') ? ' is-invalid' : '' }}" value="{{old('last_name')}}" id="last_name_ens">
+							            	<input type="text" name="last_name_en" class="form-control {{ $errors->has('last_name_en') ? ' is-invalid' : '' }}" value="{{old('last_name_en')}}" id="last_name_en" data-minlength="3" required>
 							            	{{-- show errors if any --}}
-							            	@if ($errors->has('last_name'))
+							            	<div class="help-block with-errors"></div>
+							            	@if ($errors->has('last_name_en'))
 			                                    <span class="invalid-feedback" role="alert">
-			                                        <strong>{{ $errors->first('last_name') }}</strong>
+			                                        <strong>{{ $errors->first('last_name_en') }}</strong>
 			                                    </span>
 			                                @endif
 							          	</div>
 							          	<div class="form-group col-6">
 							            	<label for="first_name_en" class="col-form-label"><strong>Prénom:</strong></label>
-							            	<input type="text" name="first_name" class="form-control {{ $errors->has('first_name') ? ' is-invalid' : '' }}" value="{{old('first_name')}}" id="first_name_en">
+							            	<input type="text" name="first_name_en" class="form-control {{ $errors->has('first_name_en') ? ' is-invalid' : '' }}" value="{{old('first_name_en')}}" id="first_name_en" data-minlength="3" required>
 							            	{{-- show errors if any --}}
-							            	@if ($errors->has('first_name'))
+							            	<div class="help-block with-errors"></div>
+							            	@if ($errors->has('first_name_en'))
 			                                    <span class="invalid-feedback" role="alert">
-			                                        <strong>{{ $errors->first('first_name') }}</strong>
+			                                        <strong>{{ $errors->first('first_name_en') }}</strong>
 			                                    </span>
 			                                @endif
 							          	</div>
 						            </div>
 						            <div class="form-group">
 						            	<label for="email" class="col-form-label"><strong>Email:</strong></label>
-						            	<input type="email" name="email" class="form-control {{ $errors->has('email') ? ' is-invalid' : '' }}" value="{{old('email')}}" id="email-en">
+						            	<input type="email" name="email_en" class="form-control {{ $errors->has('email_en') ? ' is-invalid' : '' }}" value="{{old('email_en')}}" id="email_en" required>
 						            	{{-- show errors if any --}}
-						            	@if ($errors->has('email'))
+							            <div class="help-block with-errors"></div>
+						            	@if ($errors->has('email_en'))
 		                                    <span class="invalid-feedback" role="alert">
-		                                        <strong>{{ $errors->first('email') }}</strong>
+		                                        <strong>{{ $errors->first('email_en') }}</strong>
 		                                    </span>
 		                                @endif
 						          	</div>
 						          	<div class="row">
 							          	<div class="form-group col-6">
 							            	<label for="passe-text" class="col-form-label"><strong>Mot de passe:</strong></label>
-						            	<input type="password" name="password" class="form-control {{ $errors->has('password') ? ' is-invalid' : '' }}">
+						            	<input type="password" name="password_en" id="Password_en" class="form-control {{ $errors->has('password_en') ? ' is-invalid' : '' }}" data-minlength="8" required>
 						            	{{-- show errors if any --}}
-						            	@if ($errors->has('password'))
+                          			    <div class="help-block with-errors"></div>
+						            	@if ($errors->has('password_en'))
 		                                    <span class="invalid-feedback" role="alert">
-		                                        <strong>{{ $errors->first('password') }}</strong>
+		                                        <strong>{{ $errors->first('password_en') }}</strong>
 		                                    </span>
 		                                @endif
 							          	</div>
 							          	<div class="form-group col-6">
 							            	<label for="passe-repeat-text" class="col-form-label"><strong>Répéter le mot de passe:</strong></label>
-							            	<input type="password" name="password_confirmation" class="form-control">
+							            	<input type="password" name="password_en_confirmation" class="form-control" data-match="#Password_en" required>
+                          				    <div class="help-block with-errors"></div>
 							          	</div>
 						            </div>
 						        
@@ -206,48 +211,70 @@
 								</span>
 							</div>
 							<div class="modal-body">
-						        <form>
+						        <form method="POST" data-toggle="validator" action="{{ route('register') }}">
+						        	@csrf
+						        	<input type="hidden" name="role" value="etudiant">
 						        	<div class="row">
 							          	<div class="form-group col-6">
-							            	<label for="last_name_etu" class="col-form-label"><strong>Nom:</strong></label>
-							            	<input type="text" class="form-control" id="last_name_etu">
+							            	<label for="last_name_et" class="col-form-label"><strong>Nom:</strong></label>
+							            	<input type="text" name="last_name_et" class="form-control {{ $errors->has('last_name_et') ? ' is-invalid' : '' }}" value="{{old('last_name_et')}}" id="last_name_et" data-minlength="3" required>
+							            	{{-- show errors if any --}}
+							            	<div class="help-block with-errors"></div>
+							            	@if ($errors->has('last_name_et'))
+			                                    <span class="invalid-feedback" role="alert">
+			                                        <strong>{{ $errors->first('last_name_et') }}</strong>
+			                                    </span>
+			                                @endif
 							          	</div>
 							          	<div class="form-group col-6">
-							            	<label for="first_name-et" class="col-form-label"><strong>Prénom:</strong></label>
-							            	<input type="text" class="form-control" id="first_name-et">
-							          	</div>
-						            </div>
-						            <div class="row">
-							          	<div class="form-group col-6">
-							            	<label for="cne" class="col-form-label"><strong>CNE:</strong></label>
-							            	<input type="text" class="form-control" id="cne">
-							          	</div>
-							          	<div class="form-group col-6">
-							            	<label for="cin" class="col-form-label"><strong>CIN:</strong></label>
-							            	<input type="text" class="form-control" id="cin">
+							            	<label for="first_name_et" class="col-form-label"><strong>Prénom:</strong></label>
+							            	<input type="text" name="first_name_et" class="form-control {{ $errors->has('first_name_et') ? ' is-invalid' : '' }}" value="{{old('first_name_et')}}" id="first_name_et" data-minlength="3" required>
+							            	{{-- show errors if any --}}
+							            	<div class="help-block with-errors"></div>
+							            	@if ($errors->has('first_name_et'))
+			                                    <span class="invalid-feedback" role="alert">
+			                                        <strong>{{ $errors->first('first_name_et') }}</strong>
+			                                    </span>
+			                                @endif
 							          	</div>
 						            </div>
 						            <div class="form-group">
 						            	<label for="email" class="col-form-label"><strong>Email:</strong></label>
-						            	<input type="email" class="form-control" id="email-et">
+						            	<input type="email" name="email_et" class="form-control {{ $errors->has('email_et') ? ' is-invalid' : '' }}" value="{{old('email_et')}}" id="email_et" required>
+						            	{{-- show errors if any --}}
+						            	<div class="help-block with-errors"></div>
+						            	@if ($errors->has('email_et'))
+		                                    <span class="invalid-feedback" role="alert">
+		                                        <strong>{{ $errors->first('email_et') }}</strong>
+		                                    </span>
+		                                @endif
 						          	</div>
 						          	<div class="row">
 							          	<div class="form-group col-6">
 							            	<label for="passe-text" class="col-form-label"><strong>Mot de passe:</strong></label>
-						            	<input type="password" class="form-control">
+						            	<input type="password" name="password_et" id="Password_et" class="form-control {{ $errors->has('password_et') ? ' is-invalid' : '' }}" data-minlength="8" required>
+						            	{{-- show errors if any --}}
+						            	<div class="help-block with-errors"></div>
+						            	@if ($errors->has('password_et'))
+		                                    <span class="invalid-feedback" role="alert">
+		                                        <strong>{{ $errors->first('password_et') }}</strong>
+		                                    </span>
+		                                @endif
 							          	</div>
 							          	<div class="form-group col-6">
 							            	<label for="passe-repeat-text" class="col-form-label"><strong>Répéter le mot de passe:</strong></label>
-							            	<input type="password" class="form-control">
+							            	<input type="password" name="password_et_confirmation" class="form-control" data-match="#Password_et" required>
+							            	<div class="help-block with-errors"></div>
 							          	</div>
 						            </div>
-						        </form>
+						        
 						        <p><strong>En vous inscrivant, vous acceptez nos <a href="#" class="register_a">conditions d'utilisation</a> et notre <a href="#" class="register_a">politique de confidentialité.</a></strong></p>
 						    </div>
 						    <div class="modal-footer">
 						        <button type="button" class="btn btn-danger" data-dismiss="modal">Annuler</button>
-						        <button type="button" class="btn btn-success">S'inscrire</button>
+						        <button type="submit" class="btn btn-success">S'inscrire</button>
 						    </div>
+						    </form>
 						</div>
 					</div>
 				</div>
@@ -273,38 +300,70 @@
 								</span>
 							</div>
 							<div class="modal-body">
-						        <form>
+						        <form method="POST" data-toggle="validator" action="{{ route('register') }}">
+						        	@csrf
+						        	<input type="hidden" name="role" value="coordinateur">
 						        	<div class="row">
 							          	<div class="form-group col-6">
-							            	<label for="last_name_coo" class="col-form-label"><strong>Nom:</strong></label>
-							            	<input type="text" class="form-control" id="last_name_coo">
+							            	<label for="last_name_co" class="col-form-label"><strong>Nom:</strong></label>
+							            	<input type="text" name="last_name_co" class="form-control {{ $errors->has('last_name_co') ? ' is-invalid' : '' }}" value="{{old('last_name_co')}}" id="last_name_co" data-minlength="3" required>
+							            	{{-- show errors if any --}}
+							            	<div class="help-block with-errors"></div>
+							            	@if ($errors->has('last_name_co'))
+			                                    <span class="invalid-feedback" role="alert">
+			                                        <strong>{{ $errors->first('last_name_co') }}</strong>
+			                                    </span>
+			                                @endif
 							          	</div>
 							          	<div class="form-group col-6">
-							            	<label for="first_name_coo" class="col-form-label"><strong>Prénom:</strong></label>
-							            	<input type="text" class="form-control" id="first_name_coo">
+							            	<label for="first_name_co" class="col-form-label"><strong>Prénom:</strong></label>
+							            	<input type="text" name="first_name_co" class="form-control {{ $errors->has('first_name_co') ? ' is-invalid' : '' }}" value="{{old('first_name_co')}}" id="first_name_co" data-minlength="3" required>
+							            	{{-- show errors if any --}}
+							            	<div class="help-block with-errors"></div>
+							            	@if ($errors->has('first_name_co'))
+			                                    <span class="invalid-feedback" role="alert">
+			                                        <strong>{{ $errors->first('first_name_co') }}</strong>
+			                                    </span>
+			                                @endif
 							          	</div>
 						            </div>
 						            <div class="form-group">
 						            	<label for="email" class="col-form-label"><strong>Email:</strong></label>
-						            	<input type="email" class="form-control" id="email-co">
+						            	<input type="email" name="email_co" class="form-control {{ $errors->has('email_co') ? ' is-invalid' : '' }}" value="{{old('email_co')}}" id="email_co" required>
+						            	{{-- show errors if any --}}
+						            	<div class="help-block with-errors"></div>
+						            	@if ($errors->has('email_co'))
+		                                    <span class="invalid-feedback" role="alert">
+		                                        <strong>{{ $errors->first('email_co') }}</strong>
+		                                    </span>
+		                                @endif
 						          	</div>
 						          	<div class="row">
 							          	<div class="form-group col-6">
 							            	<label for="passe-text" class="col-form-label"><strong>Mot de passe:</strong></label>
-						            	<input type="password" class="form-control">
+						            	<input type="password" name="password_co" id="Password_co" class="form-control {{ $errors->has('password_co') ? ' is-invalid' : '' }}" data-minlength="8" required>
+						            	{{-- show errors if any --}}
+						            	<div class="help-block with-errors"></div>
+						            	@if ($errors->has('password_co'))
+		                                    <span class="invalid-feedback" role="alert">
+		                                        <strong>{{ $errors->first('password_co') }}</strong>
+		                                    </span>
+		                                @endif
 							          	</div>
 							          	<div class="form-group col-6">
 							            	<label for="passe-repeat-text" class="col-form-label"><strong>Répéter le mot de passe:</strong></label>
-							            	<input type="password" class="form-control">
+							            	<input type="password" name="password_co_confirmation" class="form-control" data-match="#Password_co" required>
+							            	<div class="help-block with-errors"></div>
 							          	</div>
 						            </div>
-						        </form>
+						        
 						        <p><strong>En vous inscrivant, vous acceptez nos <a href="#" class="register_a">conditions d'utilisation</a> et notre <a href="#" class="register_a">politique de confidentialité.</a></strong></p>
 						    </div>
 						    <div class="modal-footer">
 						        <button type="button" class="btn btn-danger" data-dismiss="modal">Annuler</button>
-						        <button type="button" class="btn btn-success">S'inscrire</button>
+						        <button type="submit" class="btn btn-success">S'inscrire</button>
 						    </div>
+						    </form>
 						</div>
 					</div>
 				</div>
@@ -330,44 +389,78 @@
 								</span>
 							</div>
 							<div class="modal-body">
-						        <form>
-						        	<div class="row">
-							          	<div class="form-group col-6">
-							            	<label for="last_name_admin" class="col-form-label"><strong>Nom:</strong></label>
-							            	<input type="text" class="form-control" id="last_name_admin">
-							          	</div>
-							          	<div class="form-group col-6">
-							            	<label for="first_name_admin" class="col-form-label"><strong>Prénom:</strong></label>
-							            	<input type="text" class="form-control" id="first_name_admin">
-							          	</div>
-						            </div>
-						            <div class="form-group">
-						            	<label for="email" class="col-form-label"><strong>Code administrateur:
-						            		<a href="#" data-toggle="popover" data-placement="right" data-content="Obtenez un code d'administrateur à 6 chiffres de votre université."><i class="far fa-question-circle"></i></a></strong>
-										</label>
-						            	<input type="text" class="form-control" id="code-admin">
+					          	<form method="POST" data-toggle="validator" action="{{ route('register') }}">
+					        	@csrf
+					        	<input type="hidden" name="role" value="administrateur">
+					        	<div class="row">
+						          	<div class="form-group col-6">
+						            	<label for="last_name_ad" class="col-form-label"><strong>Nom:</strong></label>
+						            	<input type="text" name="last_name_ad" class="form-control {{ $errors->has('last_name_ad') ? ' is-invalid' : '' }}" value="{{old('last_name_ad')}}" id="last_name_ad" data-minlength="3" required>
+						            	{{-- show errors if any --}}
+						            	<div class="help-block with-errors"></div>
+						            	@if ($errors->has('last_name_ad'))
+		                                    <span class="invalid-feedback" role="alert">
+		                                        <strong>{{ $errors->first('last_name_ad') }}</strong>
+		                                    </span>
+		                                @endif
 						          	</div>
-						          	<div class="form-group">
-						            	<label for="email" class="col-form-label"><strong>Email:</strong></label>
-						            	<input type="email" class="form-control" id="email-ad">
+						          	<div class="form-group col-6">
+						            	<label for="first_name_ad" class="col-form-label"><strong>Prénom:</strong></label>
+						            	<input type="text" name="first_name_ad" class="form-control {{ $errors->has('first_name_ad') ? ' is-invalid' : '' }}" value="{{old('first_name_ad')}}" id="first_name_ad" data-minlength="3" required>
+						            	{{-- show errors if any --}}
+						            	<div class="help-block with-errors"></div>
+						            	@if ($errors->has('first_name_ad'))
+		                                    <span class="invalid-feedback" role="alert">
+		                                        <strong>{{ $errors->first('first_name_ad') }}</strong>
+		                                    </span>
+		                                @endif
 						          	</div>
-						          	<div class="row">
-							          	<div class="form-group col-6">
-							            	<label for="passe-text" class="col-form-label"><strong>Mot de passe:</strong></label>
-						            	<input type="password" class="form-control">
-							          	</div>
-							          	<div class="form-group col-6">
-							            	<label for="passe-repeat-text" class="col-form-label"><strong>Répéter le mot de passe:</strong></label>
-							            	<input type="password" class="form-control">
-							          	</div>
-						            </div>
-						        </form>
+					            </div>
+					            <div class="form-group">
+					            	<label for="email_ad" class="col-form-label"><strong>Code administrateur:
+					            		<a href="#" data-toggle="popover" data-placement="right" data-content="Obtenez un code d'administrateur à 6 chiffres de votre université."><i class="far fa-question-circle"></i></a></strong>
+									</label>
+					            	<input type="text" name="code_admin" class="form-control" id="code-admin" 
+									  required>
+					            	<div class="help-block with-errors"></div>
+					          	</div>
+					            <div class="form-group">
+					            	<label for="email" class="col-form-label"><strong>Email:</strong></label>
+					            	<input type="email" name="email_ad" class="form-control {{ $errors->has('email_ad') ? ' is-invalid' : '' }}" value="{{old('email_ad')}}" id="email_ad" required>
+					            	{{-- show errors if any --}}
+					            	<div class="help-block with-errors"></div>
+					            	@if ($errors->has('email_ad'))
+	                                    <span class="invalid-feedback" role="alert">
+	                                        <strong>{{ $errors->first('email_ad') }}</strong>
+	                                    </span>
+	                                @endif
+					          	</div>
+					          	<div class="row">
+						          	<div class="form-group col-6">
+						            	<label for="passe-text" class="col-form-label"><strong>Mot de passe:</strong></label>
+					            	<input type="password" name="password_ad" id="Password_ad" class="form-control {{ $errors->has('password_ad') ? ' is-invalid' : '' }}" data-minlength="8" required>
+					            	{{-- show errors if any --}}
+					            	<div class="help-block with-errors"></div>
+					            	@if ($errors->has('password_ad'))
+	                                    <span class="invalid-feedback" role="alert">
+	                                        <strong>{{ $errors->first('password_ad') }}</strong>
+	                                    </span>
+	                                @endif
+						          	</div>
+						          	<div class="form-group col-6">
+						            	<label for="passe-repeat-text" class="col-form-label"><strong>Répéter le mot de passe:</strong></label>
+						            	<input type="password" name="password_ad_confirmation" class="form-control" data-match="#Password_ad" required>
+						            	<div class="help-block with-errors"></div>
+						          	</div>
+					            </div>
+						        
 						        <p><strong>En vous inscrivant, vous acceptez nos <a href="#" class="register_a">conditions d'utilisation</a> et notre <a href="#" class="register_a">politique de confidentialité.</a></strong></p>
 						    </div>
 						    <div class="modal-footer">
 						        <button type="button" class="btn btn-danger" data-dismiss="modal">Annuler</button>
-						        <button type="button" class="btn btn-success">S'inscrire</button>
+						        <button type="submit" class="btn btn-success">S'inscrire</button>
 						    </div>
+						    </form>
 						</div>
 					</div>
 				</div>
@@ -381,7 +474,7 @@
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
 <script src="{{ asset('auth/bootstrap/js/bootstrap.min.js') }}"></script>
-
+<script src="{{ asset('js/validator.js') }}"></script>
 <script>
 $(document).ready(function(){
     $('[data-toggle="popover"]').popover();   

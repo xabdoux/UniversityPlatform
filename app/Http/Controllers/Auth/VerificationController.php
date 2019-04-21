@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\VerifiesEmails;
 
@@ -25,7 +26,26 @@ class VerificationController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    //protected $redirectTo = '/home';
+    protected function redirectTo()
+    {
+        switch (Auth::user()->role) {
+        case "enseignant":
+            return redirect('enseignant');
+            break;
+        case "etudiant":
+            return redirect('etudiant');
+            break;
+        case "coordinateur":
+            return redirect('coordinateur');
+            break;
+        case "administration":
+            return redirect('administration');
+            break;
+        default:
+            abort(403, 'Accès refusé pour ce type des roles.');
+        }
+    }
 
     /**
      * Create a new controller instance.
