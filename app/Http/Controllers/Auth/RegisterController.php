@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\User;
+use App\Profile;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -126,34 +127,51 @@ class RegisterController extends Controller
     protected function create(array $data)
     {
         if ($data['role'] == 'enseignant') {
+            $profile = new Profile;
+            $profile->image = NULL;
+            $profile->save();
+
             return User::create([
                 'last_name' => $data['last_name_en'],
                 'first_name' => $data['first_name_en'],
                 'email' => $data['email_en'],
                 'role' => $data['role'],
+                'profile_id' => $profile->id,
                 'password' => Hash::make($data['password_en']),
             ]);
         }elseif ($data['role'] == 'etudiant') {
+            $profile = new Profile;
+            $profile->image = NULL;
+            $profile->save();
             return User::create([
                 'last_name' => $data['last_name_et'],
                 'first_name' => $data['first_name_et'],
                 'email' => $data['email_et'],
+                'profile_id' => $profile->id,
                 'role' => $data['role'],
                 'password' => Hash::make($data['password_et']),
             ]);
         }elseif ($data['role'] == 'coordinateur') {
+            $profile = new Profile;
+            $profile->image = NULL;
+            $profile->save();
             return User::create([
                 'last_name' => $data['last_name_co'],
                 'first_name' => $data['first_name_co'],
                 'email' => $data['email_co'],
+                'profile_id' => $profile->id,
                 'role' => $data['role'],
                 'password' => Hash::make($data['password_co']),
             ]);
         }elseif ($data['role'] == 'administration') {
+            $profile = new Profile;
+            $profile->image = NULL;
+            $profile->save();
             return User::create([
                 'last_name' => $data['last_name_ad'],
                 'first_name' => $data['first_name_ad'],
                 'email' => $data['email_ad'],
+                'profile_id' => $profile->id,
                 'role' => $data['role'],
                 'password' => Hash::make($data['password_ad']),
             ]);
