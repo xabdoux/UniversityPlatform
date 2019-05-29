@@ -16,12 +16,15 @@ class CreatePublicationsTable extends Migration
         Schema::create('publications', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('type');
-            $table->date('date');
+            $table->string('titre')->nullable();
             $table->text('description');
-            $table->dateTime('date_expiration');
-            $table->integer('pieces_jointe_id');
+            $table->dateTime('date_expiration')->nullable();
+            $table->integer('pieces_jointe_id')->nullable();
+            $table->integer('publicationable_id');
+            $table->string('publicationable_type');
             $table->integer('user_id');
-            $table->string('visibilite');
+            $table->string('ferme')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

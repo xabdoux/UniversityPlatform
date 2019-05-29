@@ -128,7 +128,7 @@ class RegisterController extends Controller
     {
         if ($data['role'] == 'enseignant') {
             $profile = new Profile;
-            $profile->image = NULL;
+            $profile->image = "images/avatar/avatar.jpg";
             $profile->save();
 
             return User::create([
@@ -141,7 +141,7 @@ class RegisterController extends Controller
             ]);
         }elseif ($data['role'] == 'etudiant') {
             $profile = new Profile;
-            $profile->image = NULL;
+            $profile->image = "images/avatar/avatar.jpg";
             $profile->save();
             return User::create([
                 'last_name' => $data['last_name_et'],
@@ -153,7 +153,7 @@ class RegisterController extends Controller
             ]);
         }elseif ($data['role'] == 'coordinateur') {
             $profile = new Profile;
-            $profile->image = NULL;
+            $profile->image = "images/avatar/avatar.jpg";
             $profile->save();
             return User::create([
                 'last_name' => $data['last_name_co'],
@@ -165,7 +165,7 @@ class RegisterController extends Controller
             ]);
         }elseif ($data['role'] == 'administration') {
             $profile = new Profile;
-            $profile->image = NULL;
+            $profile->image = "images/avatar/avatar.jpg";
             $profile->save();
             return User::create([
                 'last_name' => $data['last_name_ad'],

@@ -20,9 +20,19 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 Route::group(['middleware' => ['auth','can:enseignant']], function () {
 
-		    Route::get('test', function () {
-		    return view('welcome');
-		});
+	Route::get('enseignant', 'enseignantController@dashboard');
+	Route::post('rejoindreClasse/{userId}', 'enseignantController@rejoindreClasse');
+	Route::post('ajouterPublication/{userId}', 'enseignantController@ajouterPublication');
+	Route::post('ajouterCommentaire/{publicationId}', 'enseignantController@ajouterCommentaire');
+	Route::post('supprimerPublication/{publicationId}', 'enseignantController@supprimerPublication');
+	Route::get('modifierPublication/{publicationId}', 'enseignantController@modifierPublicationView');
+	Route::post('modifierPublication/{publicationId}', 'enseignantController@modifierPublication');
+	Route::get('afficherPublication/{publicationId}', 'enseignantController@afficherPublication');
+	Route::post('loadMore', 'enseignantController@loadMore');
+	Route::get('voirToutesPublication', 'enseignantController@voirToutesPublication');
+    Route::get('test', function () {
+    return view('welcome');
+});
 
 
 });

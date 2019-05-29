@@ -17,6 +17,8 @@ class CreateEncadrementsTable extends Migration
             $table->bigIncrements('id');
             $table->integer('enseignant_id');
             $table->integer('etudiant_id');
+            $table->string('titre');
+            $table->string('description');
             $table->timestamps();
         });
     }

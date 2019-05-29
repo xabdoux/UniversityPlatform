@@ -15,6 +15,8 @@ class CreatePiecesJointesTable extends Migration
     {
         Schema::create('pieces_jointes', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->string('title');
+            $table->string('type');
             $table->string('pieces_jointes');
             $table->timestamps();
         });

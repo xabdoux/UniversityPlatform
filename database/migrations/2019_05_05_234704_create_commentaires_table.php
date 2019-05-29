@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateDevoirsTable extends Migration
+class CreateCommentairesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,10 @@ class CreateDevoirsTable extends Migration
      */
     public function up()
     {
-        Schema::create('devoirs', function (Blueprint $table) {
+        Schema::create('commentaires', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->text('description');
-            $table->integer('pieces_jointe_id');
+            $table->integer('pieces_jointe_id')->nullable();
             $table->integer('user_id');
             $table->integer('publication_id');
             $table->timestamps();
@@ -30,6 +30,6 @@ class CreateDevoirsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('devoirs');
+        Schema::dropIfExists('commentaires');
     }
 }

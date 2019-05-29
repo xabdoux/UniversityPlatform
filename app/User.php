@@ -36,4 +36,33 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function profile()
+    {
+        return $this->belongsTo('App\Profile');
+    }
+
+     public function publications()
+    {
+        return $this->hasMany('App\Publication');
+    }
+
+    public function classes()
+    {
+        return $this->belongsToMany('App\Classe','classe_users');
+    }
+
+    // this is the relationship with the same table
+    
+    public function encadrants()
+    {
+        return $this->belongsToMany('App\User', 'encadrements', 'enseignant_id', 'etudiant_id');
+       
+    }
+
+    public function encadrements()
+    {
+        return $this->belongsToMany('App\User', 'encadrements', 'enseignant_id', 'etudiant_id');
+       
+    }
 }
