@@ -30,6 +30,10 @@ Route::group(['middleware' => ['auth','can:enseignant']], function () {
 	Route::get('afficherPublication/{publicationId}', 'enseignantController@afficherPublication');
 	Route::post('loadMore', 'enseignantController@loadMore');
 	Route::get('voirToutesPublication', 'enseignantController@voirToutesPublication');
+	Route::get('voirProfile', 'enseignantController@voirProfile');
+	Route::post('modifierProfile', 'enseignantController@modifierProfile');
+	Route::post('changerMdp/{userId}', 'enseignantController@changerMdp');
+
     Route::get('test', function () {
     return view('welcome');
 });

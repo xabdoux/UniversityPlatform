@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="fr">
 <head>
+	<meta name="csrf-token" content="{{ csrf_token() }}">
 	<!-- Required meta tags -->
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
@@ -17,7 +18,7 @@
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
 	<!-- datepicker CSS -->
 	<link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css" />
-
+	@yield('stylesheet')
 	<!-- meta tags -->
 	<meta name="description" content="">
 	<meta name="keywords" content="">
@@ -37,7 +38,7 @@
 		                    <div class="panel panel-default">
 			                    <div class="profile-block">
 				                    <div class="cover overlay cover-image-full">
-				                        <img src="{{ asset('images/place1-full.jpg') }}" alt="cover">
+				                        <img src="{{ asset($user->profile->couverture) }}" height="100%" alt="cover">
 				                        <div class="overlay overlay-full overlay-bg-black">
 				                            <div class="v-top v-spacing-2">
 				                                <a href="{{ url('/') }}" class="icon float-right">
@@ -47,7 +48,10 @@
 				                                <p class="text-overlay">{{strtoupper(Auth::user()->role) }}</p>
 				                            </div>
 				                            <div class="v-bottom">
-				                                <img src="{{ asset($user->profile->image) }}" alt="user_img" class="img-circle avatar">
+				                                <div class="col-2 card_style1 mb-0">
+													<span class="avatar brround avatar-md d-block cover-image float-left" data-image-src="{{ asset($user->profile->image) }}" style="background: rgba(0, 0, 0, 0) url({{ asset($user->profile->image) }}) repeat scroll center center; width: 5.5rem;height: 5.5rem;"></span>
+
+												</div>
 				                            </div>
 				                        </div>
 				                    </div>
@@ -60,7 +64,7 @@
 				                        	<li><a href="#"><i class="fas fa-envelope"></i> Messages <span class="gx-badge gx-mb-0 gx-text-white gx-badge-red float-right mr-2">12</span></a></li>
 				                        	<li><a href="#"><i class="fas fa-tasks"></i> Tâches à accomplir <span class="gx-badge gx-mb-0 gx-text-white gx-badge-orange float-right mr-2">7</span></a></li>
 				                        	<li><a href="#"><i class="fas fa-calendar-alt"></i> <span>Emploi de temps</a></li>
-				                        	<li><a href="#"><i class="fas fa-cogs"></i> Configuration</a></li>
+				                        	<li><a href="{{ url('voirProfile') }}"><i class="fas fa-cogs"></i> Configuration</a></li>
 				                        	<li><a href="{{ route('logout') }}"
                                        			   onclick="event.preventDefault();
                                                    document.getElementById('logout-form').submit();"><i class="fas fa-power-off"></i> Déconnexion</a></li>
@@ -158,7 +162,7 @@
 									<li class="list-separated-item">
 										<div class="row align-items-center">
 											<div class="col-3">
-												<span class="avatar brround avatar-md d-block cover-image" data-image-src="{{ asset($etudiant->profile->image) }}" style="background: rgba(0, 0, 0, 0) url('{{ asset($etudiant->profile->image) }}') repeat scroll center center;"></span>
+												<span class="avatar brround avatar-md d-block cover-image" data-image-src="{{$etudiant->profile->image}}" style="background: rgba(0, 0, 0, 0) url('{{$etudiant->profile->image}}') repeat scroll center center;"></span>
 											</div>
 											<div class="col-9">
 												<div>
@@ -206,150 +210,8 @@
 		        </div>
 		    </div>
 		    <div class="col-sm-12 col-md-9">
-                <div class="row px-3">
-                	<div class="col-md-12 gx-card mb-3 px-0">
-		            	<div class="gx-card-body p-0">
-		            		<nav>
-							  <div class="nav nav-tabs" id="nav-tab" role="tablist">
-							    <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">
-								    <strong>
-								    <i class="far fa-edit"></i>
-								    Modifier la publication
-									</strong>
-								</a>
-							  </div>
-							</nav>
-							<div class="tab-content p-4" id="nav-tabContent">
-							    <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
-							    	@if ($errors->any())
-									    <div class="alert alert-danger">
-									        <ul>
-									            @foreach ($errors->all() as $error)
-									                <li>{{ $error }}</li>
-									            @endforeach
-									        </ul>
-									    </div>
-									@endif
-									@if ($publication->type == "assignation")
-									
-							    	<form method="POST" action="{{ url('modifierPublication', $publication->id) }}" enctype="multipart/form-data">
-							    		@csrf
-							    		<input type="hidden" name="type" value="{{$publication->type}}">
-							    		<input type="hidden" name="publicationable_type" value="{{$publication->publicationable_type}}">
-							    		<input type="text" class="form-control" placeholder="Titre de l´assignation" name="titre" value="{{$publication->titre}}">
-							  			<div class="row my-3">
-											<div class="col-md-6">
-												<input id="datepicker" name="date_expiration" value="{{$publication->date_expiration->format('Y-m-d')}}" />
-											</div>
-											<div class="col-md-6 pt-2">
-												<div class="custom-control custom-checkbox">
-												    <input type="checkbox" name="ferme" class="custom-control-input" id="customControlValidation1" {{$publication->ferme ? 'checked':''}}>
-												    <label class="custom-control-label" for="customControlValidation1">Bloquer cette assignation après la date limite</label>
-												</div>
-											</div>
-										</div>
-						            	<textarea name="description" name="description" class="form-control" placeholder="Ecrivez votre message ici ..." style="height:100px" required>{{ $publication->description }}
-						            	</textarea>
-						            	<select name="publicationable_id" class="form-control my-3" placeholder="Envoyer à ..." required>
-										  	@foreach ($user->classes as $classe)
-										  		<option value="{{$classe->id}}" {{$publication->publicationable_id == $classe->id ? 'selected':''}}>
-										  			{{$classe->nom}}
-										  		</option>
-										  	@endforeach
-										</select>
-										<div class="row">
-											<div class="col-md-3">
-												<div class="image-upload ml-3">
-												    <label for="file-input">
-												        <i class="fas fa-file-upload"></i>&nbsp;<strong> Joindre fichier</strong>
-
-												    </label>
-												    <p class="text-muted">Max size : 5MB</p>
-												    <input id="file-input" type="file" name="pieces_jointes" />
-												</div>
-											</div>
-											<div class="col-md-12">
-												@if ($publication->pieces_jointe_id)
-													
-													<div class="alert alert-secondary py-0" role="alert">
-														<div class="row align-items-center mt-3">
-															<div class="col-1 card_style1 mb-0">
-																<i class="far fa-file fa-3x"></i>
-															</div>
-															<div class="col-9">
-																<h6><small>{{$publication->pieces_jointe->title}}</small></h6>
-														  		<h6 class="text-inherit"><strong>{{strtoupper($publication->pieces_jointe->type) }}</strong></h6>
-															</div>
-															<div class="col-2">
-																<a href="{{$publication->pieces_jointe->pieces_jointes}}"><i class="fas fa-download float-right mr-3" style="font-size: 1.5em;" data-toggle="tooltip" data-placement="bottom" title="Télécharger" ></i></a>
-														  		<a href="#"><i class="fas fa-eye float-right mr-3" style="font-size: 1.5em;" data-toggle="tooltip" data-placement="bottom" title="Voir document"></i></a>
-															</div>
-														</div>
-													</div>
-		
-													@endif
-											<div class="col-md-12">
-							        			<button type="submit" class="btn btn-success float-right">Mettre à jour</button>
-											</div>
-										</div>
-							        </form>
-							        @else
-							    	<form method="POST" action="{{ url('modifierPublication', $publication->id) }}" enctype="multipart/form-data">
-							    		@csrf
-							    		<input type="hidden" name="type" value="{{$publication->type}}">
-							    		<input type="hidden" name="publicationable_type" value="{{$publication->publicationable_type}}">
-						            	<textarea name="description" class="form-control" style="height:100px" required>{{$publication->description}}</textarea>
-						            	<select name="publicationable_id" class="form-control my-3" placeholder="Envoyer à ..." required>
-										  	@foreach ($user->classes as $classe)
-										  		<option value="{{$classe->id}}" {{$classe->id == $publication->publicationable_id ? 'selected':''}}>
-										  			{{$classe->nom}}
-										  		</option>
-										  	@endforeach
-										</select>
-										<div class="row">
-											<div class="col-md-3">
-												<div class="image-upload ml-3">
-												    <label for="file-input">
-												        <i class="fas fa-file-upload"></i>&nbsp;<strong> Joindre fichier</strong>
-
-												    </label>
-												    <p class="text-muted">Max size : 5MB</p>
-												    <input id="file-input" type="file" name="pieces_jointes" />
-												</div>
-											</div>
-											<div class="col-md-12">
-												@if ($publication->pieces_jointe_id)
-													
-													<div class="alert alert-secondary py-0" role="alert">
-														<div class="row align-items-center mt-3">
-															<div class="col-1 card_style1 mb-0">
-																<i class="far fa-file fa-3x"></i>
-															</div>
-															<div class="col-9">
-																<h6><small>{{$publication->pieces_jointe->title}}</small></h6>
-														  		<h6 class="text-inherit"><strong>{{strtoupper($publication->pieces_jointe->type) }}</strong></h6>
-															</div>
-															<div class="col-2">
-																<a href="{{$publication->pieces_jointe->pieces_jointes}}"><i class="fas fa-download float-right mr-3" style="font-size: 1.5em;" data-toggle="tooltip" data-placement="bottom" title="Télécharger" ></i></a>
-														  		<a href="#"><i class="fas fa-eye float-right mr-3" style="font-size: 1.5em;" data-toggle="tooltip" data-placement="bottom" title="Voir document"></i></a>
-															</div>
-														</div>
-													</div>
-		
-													@endif
-											<div class="col-md-12">
-							        			<button type="submit" class="btn btn-success float-right">Mettre à jour</button>
-											</div>
-										</div>
-							        </form>
-
-							        @endif
-
-							    </div>
-							</div>
-		            	</div>
-		            </div>
-                </div>
+				
+		    	@yield('content')
 		    </div>
 		    <div class="col-md-12">
 		    	<div class="row px-3">
@@ -414,16 +276,30 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
 <script src="{{ asset('bootstrap/js/bootstrap.min.js') }}"></script>
 <script src="https://unpkg.com/gijgo@1.9.13/js/gijgo.min.js" type="text/javascript"></script>
-    
+    @yield('scripts')
 <script>
 $(document).ready(function(){
-    $('[data-toggle="popover"]').popover();   
+    $('[data-toggle="popover"]').popover(); 
+
+    $('#showAssignationBtn').click(function(){
+    	$("#showAssignation").show();
+    	$('input[name=type]').val('assignation');
+    	$('input[name=titre]').attr('required', true);
+    	$('input[name=date_expiration]').attr('required', true);
+    }); 
+    $('.hideAssignationBtn').click(function(){
+    	$("#showAssignation").hide();
+    	$('input[name=type]').val('publication');
+    	$('input[name=titre]').removeAttr('required');
+    	$('input[name=date_expiration]').removeAttr('required');
+
+    });  
 });
 </script>
 <script>
     $('#datepicker').datepicker({
         uiLibrary: 'bootstrap4',
-        format: 'yyyy-mm-dd ',
+        format: 'yyyy-mm-dd'
     });
 </script>
 

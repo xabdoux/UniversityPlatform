@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Hash;
 
 use Auth;
 use App\Profile;
@@ -225,6 +226,80 @@ class enseignantController extends Controller
 		$user = User::find(Auth::user()->id);
 		return view('enseignant/voirToutesPublication', compact(['user','etudiantsActifs']));
 
+	}
+
+	public function voirProfile()
+	{
+		$user = User::find(Auth::user()->id);
+		return view('enseignant/profile', compact(['user']));
+	}
+
+
+	public function modifierProfile(Request $request)
+	{
+		$profile = Profile::find(Auth::user()->profile->id);
+		$profile->cin           = $request->cin;
+		$profile->cne          	= $request->cne;
+		$profile->biographie 	= $request->biographie;
+		$profile->date_naiss	= $request->date_naiss;
+		$profile->adresse 		= $request->adresse;
+		$profile->tel 			= $request->tel;
+		$profile->ville 		= $request->ville;
+		$profile->pays  		= $request->pays;
+		$profile->code_postal 	= $request->code_postal;
+
+		if ($request->hasfile('image')) {
+
+	      $destinationPath = 'images/avatar/'; // upload path
+	      $extension    = $request->file('image')->getClientOriginalExtension();
+	      // getting image extension and name
+	      $fileName = time().'.'.$extension; // renameing image
+	      $request->file('image')->move($destinationPath, $fileName); // uploading file to given path
+	      $finalName="/".$destinationPath.$fileName;
+	      //insert the image in database with the new path
+	      $profile->image = $finalName;
+      }
+
+      if ($request->hasfile('couverture')) {
+
+	      $destinationPath1 = 'images/cover/'; // upload path
+	      $extension1    = $request->file('couverture')->getClientOriginalExtension();
+	      // getting couverture extension and name
+	      $fileName1 = time().'s.'.$extension1; // renameing couverture
+	      $request->file('couverture')->move($destinationPath1, $fileName1); // uploading file to given path
+	      $finalName1="/".$destinationPath1.$fileName1;
+	      //insert the cover in database with the new path
+	      $profile->couverture = $finalName1;
+
+      }
+
+      $profile->save();
+      return redirect()->back()->with('successPost','Modifié  avec succès');
+
+
+	}
+
+	public function changerMdp(Request $request, $userId)
+	{
+		$validateData = $request->validate([
+          'current_password'            => 'required',
+          'new_password'                => 'required|confirmed|min:8',
+          'new_password_confirmation'    => 'required'
+    	]);
+
+		$user = User::find($userId);
+    	if (Hash::check($request->current_password, $user->password)) {
+		    $user->password = Hash::make($request->new_password);
+		    $user->save(); 
+		return redirect()->back()->with('successPost','Le mot de passe a été Modifié avec succès');
+
+		}else return redirect()->back()->with('error', "Le mot de passe actuel n'est pas correct!");
+	
+		
+		 /*if (Auth::attempt(['email' => $email, 'password' => $password, 'active' => 1]))) {
+            // Authentication passed...
+            return redirect()->intended('dashboard');
+        }*/
 	}
 
 
